@@ -7,7 +7,7 @@
 
 <body>
     <h1>Welcome to the Design page</h1>
-    <form method="POST" th:object="${design}">
+    <form method="POST" th:object="${taco}">
         <span class="validationError" th:if="${#fields.hasErrors('ingredients')}"
               th:errors="*{ingredients}">Ingredient Error</span>
         <div>
