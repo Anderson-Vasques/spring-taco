@@ -1,24 +1,30 @@
 package com.example.taco.web;
 
+import com.example.taco.Taco;
 import com.example.taco.Ingredient;
 import com.example.taco.Ingredient.Type;
 import com.example.taco.Order;
-import com.example.taco.Taco;
-import com.example.taco.data.IngredientRepository;
 import com.example.taco.data.TacoRepository;
-import lombok.extern.slf4j.Slf4j;
+import com.example.taco.data.IngredientRepository;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
+
+
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")
@@ -28,8 +34,9 @@ public class DesignTacoController {
     private TacoRepository tacoRepository;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository,
-                                TacoRepository tacoRepository) {
+    public DesignTacoController(
+            IngredientRepository ingredientRepository,
+            TacoRepository tacoRepository) {
         this.ingredientRepository = ingredientRepository;
         this.tacoRepository = tacoRepository;
     }
@@ -57,9 +64,7 @@ public class DesignTacoController {
     }
 
     @GetMapping
-    public String showDesignForm(Model model) {
-        model.addAttribute("design", new Taco());
-
+    public String showDesignForm() {
         return "design";
     }
 
@@ -67,7 +72,6 @@ public class DesignTacoController {
     public String processDesign(
             @Valid Taco design, Errors errors,
             @ModelAttribute Order order) {
-
         if (errors.hasErrors()) {
             return "design";
         }

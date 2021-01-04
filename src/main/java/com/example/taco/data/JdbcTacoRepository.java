@@ -2,7 +2,6 @@ package com.example.taco.data;
 
 import com.example.taco.Ingredient;
 import com.example.taco.Taco;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
@@ -16,11 +15,10 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Repository
-public class JdbcTacoRepository implements TacoRepository{
+public class JdbcTacoRepository implements TacoRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public JdbcTacoRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -39,16 +37,14 @@ public class JdbcTacoRepository implements TacoRepository{
 
     private long saveTacoInfo(Taco taco) {
         taco.setCreatedAt(new Date());
-
         PreparedStatementCreator psc =
                 new PreparedStatementCreatorFactory(
-                        "INSERT INTO Taco (name, createdAt) values (?, ?)",
+                        "INSERT INTO Taco (name, createdAt) VALUES (?, ?)",
                         Types.VARCHAR, Types.TIMESTAMP
                 ).newPreparedStatementCreator(
                         Arrays.asList(
                                 taco.getName(),
-                                new Timestamp(taco.getCreatedAt().getTime()))
-                );
+                                new Timestamp(taco.getCreatedAt().getTime())));
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(psc, keyHolder);
@@ -56,9 +52,10 @@ public class JdbcTacoRepository implements TacoRepository{
         return keyHolder.getKey().longValue();
     }
 
-    private void saveIngredientToTaco(Ingredient ingredient, Long id) {
+    private void saveIngredientToTaco(
+            Ingredient ingredient, long tacoId) {
         jdbcTemplate.update(
                 "INSERT INTO Taco_Ingredients (taco, ingredient) VALUES (?, ?)",
-                id, ingredient.getId());
+                tacoId, ingredient.getId());
     }
 }

@@ -1,8 +1,6 @@
 package com.example.taco;
 
 import lombok.Data;
-
-
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -22,22 +20,22 @@ public class Order {
     private Date placedAt;
 
     @NotBlank(message = "Name is required")
-    private String name;
+    private String deliveryName;
 
     @NotBlank(message = "Street is required")
     @Size(min = 5, message = "Street must be at least 5 characters long")
-    private String street;
+    private String deliveryStreet;
 
     @NotBlank(message = "city is required")
     @Size(min = 5, message = "Street must be at least 5 characters long")
-    private String city;
+    private String deliveryCity;
 
     @NotBlank(message = "State is required")
     @Size(min = 5, message = "Street must be at least 5 characters long")
-    private String state;
+    private String deliveryState;
 
     @NotBlank(message = "Zip is required")
-    private String zip;
+    private String deliveryZip;
 
     @CreditCardNumber(message = "Not a valid credit card number")
     private String ccNumber;
