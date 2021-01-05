@@ -38,6 +38,8 @@ public class OrderController {
         }
 
         orderRepository.save(order);
+
+        //Reset session
         sessionStatus.setComplete();
 
         log.info("Order submitted: " + order);
