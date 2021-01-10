@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import com.example.taco.Ingredient;
 import com.example.taco.data.IngredientRepository;
 
+import java.util.Optional;
+
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
@@ -19,7 +21,9 @@ public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
     @Override
     public Ingredient convert(String id) {
-        return ingredientRepo.findById(id);
+        Optional<Ingredient> optionalIngredient = ingredientRepo.findById(id);
+        return optionalIngredient.isPresent() ?
+                optionalIngredient.get() : null;
     }
 
 }
